@@ -4,8 +4,14 @@ import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import jest from "eslint-plugin-jest";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import importPlugin from "eslint-plugin-import";
 
 export default defineConfig([
+  {
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
   {
     ignores: ["dist/"],
   },
@@ -17,7 +23,7 @@ export default defineConfig([
   },
   {
     files: ["**/*.{js,mjs,cjs,ts}"],
-    plugins: { js },
+    plugins: { js, import: importPlugin },
     extends: ["js/recommended"],
   },
   tseslint.configs.recommended,
@@ -40,4 +46,13 @@ export default defineConfig([
     },
   },
   eslintPluginPrettierRecommended,
+  {
+    settings: {
+      "import/resolver": {
+        node: {
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
+        },
+      },
+    },
+  },
 ]);
